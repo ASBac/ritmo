@@ -22,7 +22,7 @@ export function TaskForm({ onAddTask }) {
   }
 
   return (
-    <form className="task-form" onSubmit={handleSubmit}>
+    <form className="task-form" id="task-form" onSubmit={handleSubmit}>
       <div className="field field-grow">
         <label htmlFor={titleId}>O que precisa ser feito?</label>
         <input

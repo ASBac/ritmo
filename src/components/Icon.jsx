@@ -27,7 +27,6 @@ const iconPaths = {
     </>
   ),
   trash: <path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13M10 10.5v5M14 10.5v5" />,
-  x: <path d="m7 7 10 10M17 7 7 17" />,
 }
 
 export function Icon({ name, size = 20 }) {
