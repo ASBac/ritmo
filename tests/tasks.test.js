@@ -45,6 +45,13 @@ test('createTask rejeita títulos vazios e corrige prioridades desconhecidas', (
   assert.equal(createTask('Teste', 'urgent', () => 'id').priority, 'medium')
 })
 
+test('createTask gera um UUID válido quando nenhuma fábrica é fornecida', () => {
+  assert.match(
+    createTask('Tarefa com identificador').id,
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+  )
+})
+
 test('toggleTask altera somente a tarefa selecionada sem mutar a lista original', () => {
   const result = toggleTask(sampleTasks, 'one')
 

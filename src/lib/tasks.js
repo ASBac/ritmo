@@ -4,7 +4,11 @@ export const STORAGE_VERSION = 1
 const validPriorities = new Set(['high', 'medium', 'low'])
 const validSchedules = new Set(['today'])
 
-export function createTask(title, priority = 'medium', idFactory = crypto.randomUUID) {
+export function createTask(
+  title,
+  priority = 'medium',
+  idFactory = () => crypto.randomUUID(),
+) {
   const normalizedTitle = title.trim()
 
   if (!normalizedTitle) {
