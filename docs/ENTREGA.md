@@ -28,3 +28,19 @@ A entrega final deve conter pelo menos quatro imagens:
 - **Reunir as quatro imagens, conferir sua legibilidade e fazer o envio no AVA.**
 
 Não é necessário criar token para o GHCR: o workflow usa o `GITHUB_TOKEN` fornecido automaticamente pelo GitHub Actions.
+
+## Comandos preparados para a evidência Docker
+
+Execute no diretório do projeto:
+
+```bash
+docker build -t ritmo:local .
+docker run --name ritmo-app --rm -d -p 8080:8080 ritmo:local
+docker ps
+```
+
+Abra `http://localhost:8080`, confirme que o Ritmo funciona e faça a captura solicitada. Depois, encerre o container:
+
+```bash
+docker stop ritmo-app
+```

@@ -1,0 +1,51 @@
+export const seedTasks = [
+  {
+    id: 'task-1',
+    title: 'Estudar para a prova de DevOps',
+    priority: 'high',
+    schedule: 'today',
+    completed: false,
+  },
+  {
+    id: 'task-2',
+    title: 'Finalizar relatório do projeto',
+    priority: 'medium',
+    schedule: 'today',
+    completed: false,
+  },
+  {
+    id: 'task-3',
+    title: 'Revisar anotações de algoritmos',
+    priority: 'low',
+    schedule: 'today',
+    completed: false,
+  },
+  {
+    id: 'task-4',
+    title: 'Fazer exercícios de inglês',
+    priority: 'low',
+    schedule: 'today',
+    completed: true,
+  },
+  {
+    id: 'task-5',
+    title: 'Planejar o trabalho em grupo',
+    priority: 'medium',
+    schedule: 'today',
+    completed: true,
+  },
+  {
+    id: 'task-6',
+    title: 'Ler um capítulo do livro',
+    priority: 'low',
+    schedule: 'today',
+    completed: true,
+  },
+  {
+    id: 'task-7',
+    title: 'Organizar arquivos da disciplina',
+    priority: 'medium',
+    schedule: 'today',
+    completed: true,
+  },
+]

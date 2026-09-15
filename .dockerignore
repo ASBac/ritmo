@@ -1,0 +1,11 @@
+.git
+.github
+.npm-cache
+node_modules
+dist
+coverage
+docs
+*.log
+.env*
+Dockerfile*
+README.md
