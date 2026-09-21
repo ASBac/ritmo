@@ -1,4 +1,4 @@
-name: Monitoring Alerts
+name: Alertas do CI
 
 on:
   workflow_run:
@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       alert_message:
-        description: Message used to validate the Discord integration
+        description: Mensagem para testar o alerta no Discord
         required: false
-        default: Test alert from the Ritmo CI/CD pipeline
+        default: Teste do alerta do projeto Ritmo
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   notify-discord:
-    name: Send Discord alert
+    name: Enviar alerta no Discord
     if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'failure'
@@ -28,16 +28,16 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Validate alert configuration
+      - name: Verificar configuração
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           if [ -z "$DISCORD_WEBHOOK_URL" ]; then
-            echo "::error::Configure the DISCORD_WEBHOOK_URL repository secret before running alerts."
+            echo "::error::O secret DISCORD_WEBHOOK_URL não foi configurado."
             exit 1
           fi
 
-      - name: Send alert to Discord
+      - name: Enviar mensagem
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           EVENT_NAME: ${{ github.event_name }}
@@ -47,13 +47,13 @@ jobs:
           FAILED_RUN_URL: ${{ github.event.workflow_run.html_url }}
         run: |
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            ALERT_TEXT="🧪 ${MANUAL_MESSAGE}"
+            ALERT_TEXT="${MANUAL_MESSAGE}"
           else
-            ALERT_TEXT="🚨 Workflow ${FAILED_WORKFLOW} terminou com status ${FAILED_CONCLUSION}. ${FAILED_RUN_URL}"
+            ALERT_TEXT="O workflow ${FAILED_WORKFLOW} terminou com status ${FAILED_CONCLUSION}. Veja a execução: ${FAILED_RUN_URL}"
           fi
 
           export ALERT_TEXT
-          PAYLOAD="$(node -e 'process.stdout.write(JSON.stringify({ username: "Ritmo CI/CD", content: process.env.ALERT_TEXT }))')"
+          PAYLOAD="$(node -e 'process.stdout.write(JSON.stringify({ username: "Ritmo - GitHub Actions", content: process.env.ALERT_TEXT }))')"
 
           curl --fail-with-body --retry 3 \
             --header "Content-Type: application/json" \

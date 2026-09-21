@@ -17,12 +17,11 @@ execução dos testes e do build.
 
 ## Alertas
 
-O workflow `.github/workflows/alerts.yml` oferece dois caminhos:
+O workflow `.github/workflows/alerts.yml` funciona de duas formas:
 
 - envia automaticamente um alerta quando o workflow `Continuous Integration`
   termina com falha;
-- permite enviar um alerta controlado pela opção `Run workflow`, sem quebrar o
-  projeto apenas para produzir a evidência acadêmica.
+- permite enviar uma mensagem de teste pela opção `Run workflow`.
 
 ### Configuração exclusiva do aluno
 
