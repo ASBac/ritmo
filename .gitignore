@@ -2,6 +2,9 @@ node_modules/
 .npm-cache/
 dist/
 coverage/
+.edge-qa/
+entrega-ava-ritmo/
+entrega-ava-ritmo.zip
 .DS_Store
 *.log
 .env
