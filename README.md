@@ -17,6 +17,7 @@ O Ritmo permite criar, editar, concluir, filtrar e excluir tarefas. Os dados fic
 - [Plano de execução](docs/PLANO_EXECUCAO.md)
 - [Sistema visual](docs/DESIGN_SYSTEM.md)
 - [Roteiro da entrega](docs/ENTREGA.md)
+- [Atividade Somativa 2](docs/SOMATIVA_2.md)
 
 ## Executar localmente
 
