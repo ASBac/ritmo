@@ -1,0 +1,61 @@
+name: Alertas do CI
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      alert_message:
+        description: Mensagem para testar o alerta no Discord
+        required: false
+        default: Teste do alerta do projeto Ritmo
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alerts-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  notify-discord:
+    name: Enviar alerta no Discord
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Verificar configuração
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::error::O secret DISCORD_WEBHOOK_URL não foi configurado."
+            exit 1
+          fi
+
+      - name: Enviar mensagem
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          EVENT_NAME: ${{ github.event_name }}
+          MANUAL_MESSAGE: ${{ inputs.alert_message }}
+          FAILED_WORKFLOW: ${{ github.event.workflow_run.name }}
+          FAILED_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          FAILED_RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            ALERT_TEXT="${MANUAL_MESSAGE}"
+          else
+            ALERT_TEXT="O workflow ${FAILED_WORKFLOW} terminou com status ${FAILED_CONCLUSION}. Veja a execução: ${FAILED_RUN_URL}"
+          fi
+
+          export ALERT_TEXT
+          PAYLOAD="$(node -e 'process.stdout.write(JSON.stringify({ username: "Ritmo - GitHub Actions", content: process.env.ALERT_TEXT }))')"
+
+          curl --fail-with-body --retry 3 \
+            --header "Content-Type: application/json" \
+            --data "$PAYLOAD" \
+            "$DISCORD_WEBHOOK_URL"
